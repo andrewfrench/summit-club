@@ -58,7 +58,7 @@ function Trivia(context) {
 
   this.box_bounds = [220,420,620,820];
 
-  this.background_image_url = "C:\\\\Users\\Andrew\\Pictures\\rapids_trivia_pngs\\background.png";
+  this.background_image_url = "assets\\rapids_trivia_pngs\\background.png";
   this.background_image = new Image();
   this.background_image.src = this.background_image_url;
 
