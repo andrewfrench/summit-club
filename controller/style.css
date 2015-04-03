@@ -1,0 +1,49 @@
+html, body {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  margin: 0;
+
+  font-family: sans-serif, Helvetica, Arial;
+}
+
+body {
+
+}
+
+#header {
+  height: 128px;
+}
+
+#tv-select {
+  height: 128px;
+}
+
+div#tv-select div {
+  width: 384px;
+  height: 128px;
+  float: left;
+
+  text-align: center;
+  font-size: 40px;
+  font-color: #999;
+}
+
+div#tv-select div.selected {
+  background-color: #999;
+  font-color: black;
+}
+
+.controller-element {
+  width: 256px;
+  height: 256px;
+  padding: 0px;
+  margin: 0px;
+  float: left;
+
+  background-color: #DDD;
+}
