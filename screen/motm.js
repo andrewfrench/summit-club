@@ -55,8 +55,11 @@ function Motm(context) {
 
     if(man.image){
       man.context.drawImage(man.image, 0, 0);
-      man.context.drawImage(man.overlay_image, 150, 600);      
+    } else {
+      man.context.fillStyle = "#000";
+      man.context.fillRect(0,0,1920,1080);
     }
+    man.context.drawImage(man.overlay_image, 150, 600);
   };
 
   this.load_images();
