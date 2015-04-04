@@ -18,12 +18,14 @@ function message_arrived(message) {
     case "slideshow":
       mode = "slideshow";
       trivia.stop();
+      chef.stop();
       slideshow.launch_slideshow();
       break;
 
     case "trivia":
       mode = "trivia";
       slideshow.stop();
+      chef.stop();
       trivia.launch_trivia();
       break;
 
