@@ -34,6 +34,7 @@ function message_arrived(message) {
         mode = "motm";
         slideshow.stop();
         trivia.stop();
+        chef.stop();
         motm.launch(parsed_message.player)
       } else {
         console.log("requires player image name");
