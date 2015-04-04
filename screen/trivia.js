@@ -58,7 +58,7 @@ function Trivia(context) {
 
   this.box_bounds = [220,420,620,820];
 
-  this.background_image_url = "assets\\rapids_trivia_pngs\\background.png";
+  this.background_image_url = "../assets/rapids_trivia_pngs/background.png";
   this.background_image = new Image();
   this.background_image.src = this.background_image_url;
 
@@ -190,11 +190,20 @@ function Trivia(context) {
           trivia.new_response = (i + trivia.random_answer_offset) % trivia.current_question.answers.length;
         }
       }
+
       if(trivia.response == trivia.new_response) {
         trivia.begin_time = new Date().getTime() - trivia.max_response_time_ms;
       } else if(trivia.new_response != undefined) {
         trivia.response = trivia.new_response;
       }
+    }
+  },
+
+  this.stop = function() {
+    if(trivia.requestAnimationFrameID) {
+      cancelAnimationFrame(trivia.requestAnimationFrameID);
+      trivia.animate_answer = false;
+      trivia.animate_question = false;
     }
   }
 }

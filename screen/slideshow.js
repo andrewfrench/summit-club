@@ -4,29 +4,29 @@ function Slideshow(context) {
   this.context = context;
 
   this.image_urls = [
-    "assets\\rapids_roster_pngs\\alex_sjoberg.png",
-    "assets\\rapids_roster_pngs\\ben_newman.png",
-    "assets\\rapids_roster_pngs\\bobby_burling.png",
-    "assets\\rapids_roster_pngs\\caleb_calvert.png",
-    "assets\\rapids_roster_pngs\\carlos_alvarez.png",
-    "assets\\rapids_roster_pngs\\charles_eloundou.png",
-    "assets\\rapids_roster_pngs\\dillon_powers.png",
-    "assets\\rapids_roster_pngs\\dillon_serna.png",
-    "assets\\rapids_roster_pngs\\dominique_badji.png",
-    "assets\\rapids_roster_pngs\\drew_moor.png",
-    "assets\\rapids_roster_pngs\\gabriel_torres.png",
-    "assets\\rapids_roster_pngs\\jared_watts.png",
-    "assets\\rapids_roster_pngs\\john_berner.png",
-    "assets\\rapids_roster_pngs\\juan_ramirez.png",
-    "assets\\rapids_roster_pngs\\lucas_pittinari.png",
-    "assets\\rapids_roster_pngs\\marc_burch.png",
-    "assets\\rapids_roster_pngs\\marcelo_sarvas.png",
-    "assets\\rapids_roster_pngs\\marlon_hairston.png",
-    "assets\\rapids_roster_pngs\\michael_harrington.png",
-    "assets\\rapids_roster_pngs\\nick_labrocca.png",
-    "assets\\rapids_roster_pngs\\shane_oneill.png",
-    "assets\\rapids_roster_pngs\\vicente_sanchez.png",
-    "assets\\rapids_roster_pngs\\zac_macmath.png"
+    "../assets/rapids_roster_pngs/alex_sjoberg.png",
+    "../assets/rapids_roster_pngs/ben_newman.png",
+    "../assets/rapids_roster_pngs/bobby_burling.png",
+    "../assets/rapids_roster_pngs/caleb_calvert.png",
+    "../assets/rapids_roster_pngs/carlos_alvarez.png",
+    "../assets/rapids_roster_pngs/charles_eloundou.png",
+    "../assets/rapids_roster_pngs/dillon_powers.png",
+    "../assets/rapids_roster_pngs/dillon_serna.png",
+    "../assets/rapids_roster_pngs/dominique_badji.png",
+    "../assets/rapids_roster_pngs/drew_moor.png",
+    "../assets/rapids_roster_pngs/gabriel_torres.png",
+    "../assets/rapids_roster_pngs/jared_watts.png",
+    "../assets/rapids_roster_pngs/john_berner.png",
+    "../assets/rapids_roster_pngs/juan_ramirez.png",
+    "../assets/rapids_roster_pngs/lucas_pittinari.png",
+    "../assets/rapids_roster_pngs/marc_burch.png",
+    "../assets/rapids_roster_pngs/marcelo_sarvas.png",
+    // "../assets/rapids_roster_pngs/marlon_hairston.png",
+    "../assets/rapids_roster_pngs/michael_harrington.png",
+    "../assets/rapids_roster_pngs/nick_labrocca.png",
+    "../assets/rapids_roster_pngs/shane_oneill.png",
+    "../assets/rapids_roster_pngs/vicente_sanchez.png",
+    "../assets/rapids_roster_pngs/zac_macmath.png"
   ];
 
   slideshow.images = [];
@@ -88,5 +88,11 @@ function Slideshow(context) {
     slideshow.last_slide_time = new Date().getTime();
 
     slideshow.draw_slide();
+  };
+
+  this.stop = function() {
+    if(slideshow.requestAnimationFrameID) {
+      cancelAnimationFrame(slideshow.requestAnimationFrameID);
+    }
   };
 }

@@ -1,92 +1,77 @@
 function Chef(context) {
-  var slideshow = this;
+  var chef = this;
 
   this.context = context;
 
   this.image_urls = [
-    "C:\\\\Users\\Andrew\\Pictures\\rapids_roster_pngs\\alex_sjoberg.png",
-    "C:\\\\Users\\Andrew\\Pictures\\rapids_roster_pngs\\ben_newman.png",
-    "C:\\\\Users\\Andrew\\Pictures\\rapids_roster_pngs\\bobby_burling.png",
-    "C:\\\\Users\\Andrew\\Pictures\\rapids_roster_pngs\\caleb_calvert.png",
-    "C:\\\\Users\\Andrew\\Pictures\\rapids_roster_pngs\\carlos_alvarez.png",
-    "C:\\\\Users\\Andrew\\Pictures\\rapids_roster_pngs\\charles_eloundou.png",
-    "C:\\\\Users\\Andrew\\Pictures\\rapids_roster_pngs\\dillon_powers.png",
-    "C:\\\\Users\\Andrew\\Pictures\\rapids_roster_pngs\\dillon_serna.png",
-    "C:\\\\Users\\Andrew\\Pictures\\rapids_roster_pngs\\dominique_badji.png",
-    "C:\\\\Users\\Andrew\\Pictures\\rapids_roster_pngs\\drew_moor.png",
-    "C:\\\\Users\\Andrew\\Pictures\\rapids_roster_pngs\\gabriel_torres.png",
-    "C:\\\\Users\\Andrew\\Pictures\\rapids_roster_pngs\\jared_watts.png",
-    "C:\\\\Users\\Andrew\\Pictures\\rapids_roster_pngs\\john_berner.png",
-    "C:\\\\Users\\Andrew\\Pictures\\rapids_roster_pngs\\juan_ramirez.png",
-    "C:\\\\Users\\Andrew\\Pictures\\rapids_roster_pngs\\lucas_pittinari.png",
-    "C:\\\\Users\\Andrew\\Pictures\\rapids_roster_pngs\\marc_burch.png",
-    "C:\\\\Users\\Andrew\\Pictures\\rapids_roster_pngs\\marcelo_sarvas.png",
-    "C:\\\\Users\\Andrew\\Pictures\\rapids_roster_pngs\\marlon_hairston.png",
-    "C:\\\\Users\\Andrew\\Pictures\\rapids_roster_pngs\\michael_harrington.png",
-    "C:\\\\Users\\Andrew\\Pictures\\rapids_roster_pngs\\nick_labrocca.png",
-    "C:\\\\Users\\Andrew\\Pictures\\rapids_roster_pngs\\shane_oneill.png",
-    "C:\\\\Users\\Andrew\\Pictures\\rapids_roster_pngs\\vicente_sanchez.png",
-    "C:\\\\Users\\Andrew\\Pictures\\rapids_roster_pngs\\zac_macmath.png"
+    "../assets/chef_pngs/bio.png",
+    "../assets/chef_pngs/menu.png"
   ];
 
-  slideshow.images = [];
+  chef.images = [];
 
   // Figure out where to call this
   this.load_images = function() {
     for(var i = 0; i < this.image_urls.length; i++) {
       var image = new Image();
-      image.src = slideshow.image_urls[i];
-      slideshow.images.push(image);
+      image.src = chef.image_urls[i];
+      chef.images.push(image);
     }
   };
 
-  this.launch_slideshow = function() {
-    if(slideshow.requestAnimationFrameID) {
-      cancelAnimationFrame(slideshow.requestAnimationFrameID);
+  this.launch_chef = function() {
+    if(chef.requestAnimationFrameID) {
+      cancelAnimationFrame(chef.requestAnimationFrameID);
     }
 
-    if(!slideshow.index) {
-      slideshow.index = 0;
+    if(!chef.index) {
+      chef.index = 0;
     }
 
-    slideshow.last_slide_time = new Date().getTime();
-    slideshow.interval_length_ms = 20000; // 20 seconds
+    chef.last_slide_time = new Date().getTime();
+    chef.interval_length_ms = 60000; // 20 seconds
 
-    slideshow.draw_slide();
+    chef.draw_slide();
   };
 
   this.draw_slide = function() {
-    slideshow.current_time = new Date().getTime();
-    slideshow.time_diff = slideshow.current_time - slideshow.last_slide_time;
+    chef.current_time = new Date().getTime();
+    chef.time_diff = chef.current_time - chef.last_slide_time;
 
-    slideshow.check_interval();
+    chef.check_interval();
 
-    slideshow.image = slideshow.images[slideshow.index % slideshow.images.length];
-    slideshow.context.drawImage(slideshow.image, 0, 0);
+    chef.image = chef.images[chef.index % chef.images.length];
+    chef.context.drawImage(chef.image, 0, 0);
 
-    slideshow.fraction_elapsed = slideshow.time_diff / slideshow.interval_length_ms;
-    slideshow.context.fillStyle = "rgba(140,0,26,0.8)";
-    slideshow.context.fillRect(0, 1060, (1920 * slideshow.fraction_elapsed), 1080);
+    chef.fraction_elapsed = chef.time_diff / chef.interval_length_ms;
+    chef.context.fillStyle = "rgba(140,0,26,0.8)";
+    chef.context.fillRect(0, 1060, (1920 * chef.fraction_elapsed), 1080);
 
-    slideshow.requestAnimationFrameID = requestAnimationFrame(slideshow.draw_slide);
+    chef.requestAnimationFrameID = requestAnimationFrame(chef.draw_slide);
   };
 
   this.check_interval = function() {
-    if(slideshow.time_diff >= slideshow.interval_length_ms) {
-      slideshow.index++;
-      slideshow.last_slide_time = slideshow.current_time;
+    if(chef.time_diff >= chef.interval_length_ms) {
+      chef.index++;
+      chef.last_slide_time = chef.current_time;
     }
   };
 
   this.advance_slide = function() {
-    slideshow.index++;
+    chef.index++;
 
-    if(slideshow.requestAnimationFrameID) {
-      cancelAnimationFrame(slideshow.requestAnimationFrameID);
+    if(chef.requestAnimationFrameID) {
+      cancelAnimationFrame(chef.requestAnimationFrameID);
     }
 
-    slideshow.last_slide_time = new Date().getTime();
+    chef.last_slide_time = new Date().getTime();
 
-    slideshow.draw_slide();
+    chef.draw_slide();
+  };
+
+  this.stop = function() {
+    if(chef.requestAnimationFrameID) {
+      cancelAnimationFrame(chef.requestAnimationFrameID);
+    }
   };
 }
