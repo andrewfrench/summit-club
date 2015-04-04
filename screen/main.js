@@ -57,6 +57,7 @@ function connection_success() {
   console.log("connection success");
 
   client.subscribe("30c5c1103209c9df0eb5abf998fdf33a/summit-club/" + screen_side);
+  client.subscribe("30c5c1103209c9df0eb5abf998fdf33a/summit-club/both");
 }
 
 var canvas = document.getElementById('main');

@@ -44,20 +44,28 @@ function Motm(context) {
   };
 
   this.launch = function(player) {
+    var image;
     man.player = player;
     for(var i = 0; i < man.images.length; i++) {
       var name_full_arr = man.images[i].src.split("/");
       var name = name_full_arr[name_full_arr.length - 1];
       if(name == man.player) {
-        man.image = man.images[i];
+        image = man.images[i];
       }
     }
 
-    if(man.image){
-      man.context.drawImage(man.image, 0, 0);
+    if(image){
+      man.context.drawImage(image, 0, 0);
     } else {
       man.context.fillStyle = "#000";
       man.context.fillRect(0,0,1920,1080);
+
+      // Create a name from the given image filename
+      var player_name_chunks = man.player.split(".");
+      var player_name_display = player_name_chunks[0].replace("_", " ");
+      man.context.fillStyle = "#FFF";
+      man.context.font = "140px Arial";
+      man.context.fillText(player_name_display.toUpperCase(), 150, 260);
     }
     man.context.drawImage(man.overlay_image, 150, 600);
   };
