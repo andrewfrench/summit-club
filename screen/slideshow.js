@@ -26,40 +26,32 @@ function Slideshow(context) {
     "../assets/rapids_roster_pngs/nick_labrocca.png",
     "../assets/rapids_roster_pngs/shane_oneill.png",
     "../assets/rapids_roster_pngs/vicente_sanchez.png",
-    "../assets/rapids_roster_pngs/zac_macmath.png"
+    "../assets/rapids_roster_pngs/zac_macmath.png",
+    "../assets/member_pngs/aaron_evans.png",
+    "../assets/member_pngs/brett_story.png",
+    "../assets/member_pngs/marco_chayet.png",
+    "../assets/member_pngs/rick_garcia.png",
+    "../assets/member_pngs/steve_and_theresa_paul.png"
   ];
 
   slideshow.images = [];
+  slideshow.index = 0;
+  slideshow.interval_length_ms = 20 * 1000;
+  slideshow.last_slide_time = new Date().getTime();
 
-  // Figure out where to call this
-  this.load_images = function() {
+  this.load = function() {
     for(var i = 0; i < this.image_urls.length; i++) {
       var image = new Image();
       image.src = slideshow.image_urls[i];
       slideshow.images.push(image);
+      console.log("loaded", image.src);
     }
   };
 
-  this.launch_slideshow = function() {
-    if(slideshow.requestAnimationFrameID) {
-      cancelAnimationFrame(slideshow.requestAnimationFrameID);
-    }
+  this.get_frame = function(current_time) {
+    slideshow.time_diff = current_time - slideshow.last_slide_time;
 
-    if(!slideshow.index) {
-      slideshow.index = 0;
-    }
-
-    slideshow.last_slide_time = new Date().getTime();
-    slideshow.interval_length_ms = 20000; // 20 seconds
-
-    slideshow.draw_slide();
-  };
-
-  this.draw_slide = function() {
-    slideshow.current_time = new Date().getTime();
-    slideshow.time_diff = slideshow.current_time - slideshow.last_slide_time;
-
-    slideshow.check_interval();
+    slideshow.check_interval(current_time);
 
     slideshow.image = slideshow.images[slideshow.index % slideshow.images.length];
     slideshow.context.drawImage(slideshow.image, 0, 0);
@@ -67,32 +59,17 @@ function Slideshow(context) {
     slideshow.fraction_elapsed = slideshow.time_diff / slideshow.interval_length_ms;
     slideshow.context.fillStyle = "rgba(140,0,26,0.8)";
     slideshow.context.fillRect(0, 1060, (1920 * slideshow.fraction_elapsed), 1080);
-
-    slideshow.requestAnimationFrameID = requestAnimationFrame(slideshow.draw_slide);
   };
 
-  this.check_interval = function() {
+  this.check_interval = function(current_time) {
     if(slideshow.time_diff >= slideshow.interval_length_ms) {
       slideshow.index++;
-      slideshow.last_slide_time = slideshow.current_time;
+      slideshow.last_slide_time = current_time;
     }
   };
 
-  this.advance_slide = function() {
+  this.accept_click = function(event) {
     slideshow.index++;
-
-    if(slideshow.requestAnimationFrameID) {
-      cancelAnimationFrame(slideshow.requestAnimationFrameID);
-    }
-
     slideshow.last_slide_time = new Date().getTime();
-
-    slideshow.draw_slide();
-  };
-
-  this.stop = function() {
-    if(slideshow.requestAnimationFrameID) {
-      cancelAnimationFrame(slideshow.requestAnimationFrameID);
-    }
   };
 }

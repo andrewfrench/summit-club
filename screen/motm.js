@@ -35,7 +35,7 @@ function Motm(context) {
 
   this.images = [];
 
-  this.load_images = function() {
+  this.load = function() {
     for(var i = 0; i < man.image_urls.length; i++) {
       var image = new Image();
       image.src = man.image_urls[i];
@@ -43,9 +43,12 @@ function Motm(context) {
     }
   };
 
-  this.launch = function(player) {
-    var image;
+  this.set_player = function(player) {
     man.player = player;
+  };
+
+  this.get_frame = function(player) {
+    var image;
     for(var i = 0; i < man.images.length; i++) {
       var name_full_arr = man.images[i].src.split("/");
       var name = name_full_arr[name_full_arr.length - 1];
@@ -69,6 +72,4 @@ function Motm(context) {
     }
     man.context.drawImage(man.overlay_image, 150, 600);
   };
-
-  this.load_images();
 }

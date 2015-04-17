@@ -14,7 +14,6 @@
  *    Andrew Banks - initial API and implementation and initial documentation
  *******************************************************************************/
 
-
 // Only expose a single object name in the global namespace.
 // Everything must go through this module. Global Paho.MQTT module
 // only has a single public function, client, which returns

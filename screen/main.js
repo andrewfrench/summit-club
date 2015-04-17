@@ -1,9 +1,20 @@
-var mode = undefined;
+var mode;
+var canvas = document.getElementById('main');
+var context = canvas.getContext('2d');
 
-console.log(screen_side);
+// Initialize objects
+var slideshow = new Slideshow(context);
+slideshow.load();
+
+var motm = new Motm(context);
+motm.load();
+
+var cotm = new Cotm(context);
+cotm.load();
 
 var client = new Paho.MQTT.Client("q.thingfabric.com", 8083, "summit-club-screen");
 client.onMessageArrived = message_arrived;
+client.onConnectionLost = reconnect;
 
 client.connect({
   userName: "5fbd84a3-b9ee-49a2-9e1f-8c2a9b27bca0",
@@ -12,44 +23,41 @@ client.connect({
   onSuccess: connection_success
 });
 
+function reconnect(responseObject) {
+  console.error("MQTT connection lost!");
+  console.log(responseObject);
+
+  client.connect({
+    userName: "5fbd84a3-b9ee-49a2-9e1f-8c2a9b27bca0",
+    password: "c5e8790e1de11dc4b37b99191f5b7f03",
+    keepAliveInterval: 10,
+    onSuccess: connection_success
+  });
+}
+
 function message_arrived(message) {
-  var parsed_message = JSON.parse(message.payloadString);
-  switch(parsed_message.mode) {
-    case "slideshow":
-      mode = "slideshow";
-      trivia.stop();
-      chef.stop();
-      slideshow.launch_slideshow();
-      break;
+  try{
+    console.log(JSON.parse(message.payloadString));
 
-    case "trivia":
-      mode = "trivia";
-      slideshow.stop();
-      chef.stop();
-      trivia.launch_trivia();
-      break;
+    var outbound_message = new Paho.MQTT.Message("Message received and parsed.");
+    outbound_message.destinationName = "30c5c1103209c9df0eb5abf998fdf33a/summit-club/status/right";
+    client.send(outbound_message);
 
-    case "motm":
-      if(parsed_message.player) {
-        mode = "motm";
-        slideshow.stop();
-        trivia.stop();
-        chef.stop();
-        motm.launch(parsed_message.player)
-      } else {
-        console.log("requires player image name");
-      }
-      break;
+    var parsed_message = JSON.parse(message.payloadString);
 
-    case "chef":
-      mode = "chef";
-      slideshow.stop();
-      trivia.stop();
-      chef.launch_chef();
-      break;
+    mode = parsed_message.mode;
+    console.log(mode);
 
-    default:
-      console.log("malformed request: ", message.payloadString);
+    if(mode == "motm") {
+      motm.set_player(parsed_message.player);
+    }
+
+  } catch(e) {
+    console.error("JSON message parse error:", e.message);
+
+    var error_message = new Paho.MQTT.Message("Malformed JSON in request.");
+    error_message.destinationName = "30c5c1103209c9df0eb5abf998fdf33a/summit-club/status/right";
+    client.send(error_message);
   }
 }
 
@@ -60,43 +68,51 @@ function connection_success() {
   client.subscribe("30c5c1103209c9df0eb5abf998fdf33a/summit-club/both");
 }
 
-var canvas = document.getElementById('main');
-var context = canvas.getContext('2d');
-
-var slideshow = new Slideshow(context);
-var trivia = new Trivia(context);
-var motm = new Motm(context);
-var chef = new Chef(context);
-
-slideshow.load_images();
-chef.load_images();
-
 canvas.onclick = function(event) {
   if(!document.webkitFullscreenElement) {
-    make_fullscreen();
+    canvas.webkitRequestFullscreen();
+
+    start_animation();
   } else {
-    console.log(mode);
-    switch(mode) {
+    // If fullscreen, pass click event to click handler
+    console.log("Click event:", event.clientX, event.clientY);
+
+    switch (mode) {
       case "slideshow":
-        slideshow.advance_slide();
+        slideshow.accept_click(event);
         break;
-      case "trivia":
-        trivia.handle_click(event);
+
+      case "cotm":
+        cotm.accept_click(event);
         break;
-      case "chef":
-        chef.advance_slide();
-        break;
-      default:
-        event.preventDefault();
     }
   }
 }
 
-function make_fullscreen() {
-  canvas.webkitRequestFullscreen();
+function start_animation() {
+  if(mode == undefined) {
+    mode = "slideshow";
+  }
 
-  make_testcard(context);
+  draw();
+}
 
-  // slideshow.launch_slideshow();
-  // trivia.launch_trivia();
+function draw() {
+  var current_time = new Date().getTime();
+
+  switch (mode) {
+    case "slideshow":
+      slideshow.get_frame(current_time);
+      break;
+
+    case "cotm":
+      cotm.get_frame(current_time);
+      break;
+
+    case "motm":
+      motm.get_frame(current_time);
+      break;
+  }
+
+  requestAnimationFrame(draw);
 }
