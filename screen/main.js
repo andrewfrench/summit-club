@@ -1,4 +1,5 @@
 var mode;
+var available_modes = ["slideshow", "motm", "cotm"];
 var canvas = document.getElementById('main');
 var context = canvas.getContext('2d');
 
@@ -12,7 +13,8 @@ motm.load();
 var cotm = new Cotm(context);
 cotm.load();
 
-var client = new Paho.MQTT.Client("q.thingfabric.com", 8083, "summit-club-screen");
+var client_id = "summit-club-screen-" + screen_side;
+var client = new Paho.MQTT.Client("q.thingfabric.com", 8083, client_id);
 client.onMessageArrived = message_arrived;
 client.onConnectionLost = reconnect;
 
@@ -40,12 +42,14 @@ function message_arrived(message) {
     console.log(JSON.parse(message.payloadString));
 
     var outbound_message = new Paho.MQTT.Message("Message received and parsed.");
-    outbound_message.destinationName = "30c5c1103209c9df0eb5abf998fdf33a/summit-club/status/right";
+    outbound_message.destinationName = "30c5c1103209c9df0eb5abf998fdf33a/summit-club/status/" + screen_side;
     client.send(outbound_message);
 
     var parsed_message = JSON.parse(message.payloadString);
 
-    mode = parsed_message.mode;
+    if(available_modes.indexOf(parsed_message.mode) >= 0) {
+      mode = parsed_message.mode;
+    }
     console.log(mode);
 
     if(mode == "motm") {
@@ -56,7 +60,7 @@ function message_arrived(message) {
     console.error("JSON message parse error:", e.message);
 
     var error_message = new Paho.MQTT.Message("Malformed JSON in request.");
-    error_message.destinationName = "30c5c1103209c9df0eb5abf998fdf33a/summit-club/status/right";
+    error_message.destinationName = "30c5c1103209c9df0eb5abf998fdf33a/summit-club/status/" + screen_side;
     client.send(error_message);
   }
 }
