@@ -8,6 +8,7 @@ function Cotm(context) {
     "../assets/chef_pngs/menu.png",
     "../assets/chef_pngs/budweiser.png",
     "../assets/chef_pngs/marley_coffee.png",
+    "../assets/chef_pngs/loose_leaf.png",
     "../assets/chef_pngs/odell_brewing.png"
   ];
 

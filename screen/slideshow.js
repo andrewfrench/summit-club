@@ -4,7 +4,7 @@ function Slideshow(context) {
   this.context = context;
 
   this.image_urls = [
-    "../assets/rapids_roster_pngs/alex_sjoberg.png",
+    "../assets/rapids_roster_pngs/axel_sjoberg.png",
     "../assets/rapids_roster_pngs/ben_newnam.png",
     "../assets/rapids_roster_pngs/bobby_burling.png",
     "../assets/rapids_roster_pngs/brian_mullan.png",
