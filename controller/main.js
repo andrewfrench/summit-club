@@ -1,38 +1,91 @@
-(function(){
-  var controller = this;
+client_id = "summit-club-controller";
+client = new Paho.MQTT.Client("q.thingfabric.com", 8083, client_id);
+// client.onMessageArrived = message_arrived;
+client.onConnectionLost = mqtt_reconnect;
 
-  this.buttons = {
-    left_tv_selector: document.getElementById("tv-left"),
-    right_tv_selector: document.getElementById("tv-right"),
+client.connect({
+  userName: "5fbd84a3-b9ee-49a2-9e1f-8c2a9b27bca0",
+  password: "c5e8790e1de11dc4b37b99191f5b7f03",
+  keepAliveInterval: 10,
+  onSuccess: connection_success
+});
 
-    test_button: document.getElementById("one")
-    // Other buttons go here as they are added.
-  };
+function mqtt_reconnect(responseObject) {
+  console.error("MQTT connection lost!");
+  console.log(responseObject);
 
-  this.buttons.left_tv_selector.onclick = function() {
-    // Set left TV to selected TV when clicked
-    controller.buttons.left_tv_selector.classList.add("selected");
-    controller.buttons.right_tv_selector.className = "";
+  client.connect({
+    userName: "5fbd84a3-b9ee-49a2-9e1f-8c2a9b27bca0",
+    password: "c5e8790e1de11dc4b37b99191f5b7f03",
+    keepAliveInterval: 10,
+    onSuccess: connection_success
+  });
+};
 
-    controller.selected_tv = "left";
-  };
-  this.buttons.right_tv_selector.onclick = function() {
-    // Set right TV to selected TV when clicked
-    controller.buttons.left_tv_selector.className = "";
-    controller.buttons.right_tv_selector.classList.add("selected");
+function connection_success() {
+  console.log("MQTT connection success.");
+};
 
-    controller.selected_tv = "right";
+buttons = {
+  left_tv_selector: document.getElementById("tv-left"),
+  both_tv_selector: document.getElementById("tv-both"),
+  right_tv_selector: document.getElementById("tv-right"),
+
+  roster: document.getElementById("roster"),
+  cotm: document.getElementById("cotm"),
+  motm: document.getElementById("motm")
+  // Other buttons go here as they are added.
+};
+
+buttons.left_tv_selector.onclick = function() {
+  // Set left TV to selected TV when clicked
+  buttons.left_tv_selector.classList.add("selected");
+  buttons.right_tv_selector.className = "";
+  buttons.both_tv_selector.className = "";
+
+  selected_tv = "left";
+};
+
+buttons.both_tv_selector.onclick = function() {
+  // Set both tvs button to selected when clicked.
+  buttons.left_tv_selector.className = "";
+  buttons.right_tv_selector.className = "";
+  buttons.both_tv_selector.classList.add("selected");
+
+  selected_tv = "both";
+};
+
+buttons.right_tv_selector.onclick = function() {
+  // Set right TV to selected TV when clicked
+  buttons.left_tv_selector.className = "";
+  buttons.right_tv_selector.classList.add("selected");
+  buttons.both_tv_selector.className = "";
+
+  selected_tv = "right";
+};
+
+buttons.roster.onclick = function() {
+  var json_command = '{"mode":"slideshow"}';
+  command(json_command);
+};
+
+buttons.cotm.onclick = function() {
+  var json_command = '{"mode":"cotm"}';
+  command(json_command);
+}
+
+buttons.motm.onclick = function() {
+  var json_command = '{"mode":"motm", "player":"player_name.png"}';
+  command(json_command);
+}
+
+function command(command) {
+  if(selected_tv == null || selected_tv == undefined) {
+    console.log("tv not selected");
+  } else {
+    var command_message = new Paho.MQTT.Message(command);
+    command_message.destinationName = "30c5c1103209c9df0eb5abf998fdf33a/summit-club/" + selected_tv;
+    client.send(command_message);
+    console.log(selected_tv, command);
   }
-  this.buttons.test_button.onclick = function() {
-    controller.command("one");
-  }
-
-  this.command = function(command) {
-    if(controller.selected_tv == null || controller.selected_tv == undefined) {
-      console.log("tv not selected");
-    } else {
-      var mqtt_topic = "abcd/" + controller.selected_tv + "/" + command;
-      console.log(mqtt_topic);
-    }
-  }
-})()
+};

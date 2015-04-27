@@ -8,7 +8,7 @@ html, body {
 
   margin: 0;
 
-  font-family: sans-serif, Helvetica, Arial;
+  font-family: Oxygen, Helvetica, Arial;
 }
 
 body {
@@ -24,7 +24,7 @@ body {
 }
 
 div#tv-select div {
-  width: 384px;
+  width: 256px;
   height: 128px;
   float: left;
 
@@ -45,5 +45,5 @@ div#tv-select div.selected {
   margin: 0px;
   float: left;
 
-  background-color: #DDD;
+  background-color: #BBB;
 }
