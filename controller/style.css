@@ -17,10 +17,35 @@ body {
 
 #header {
   height: 128px;
+  text-align: center;
+  font-size: 48px;
 }
 
 #tv-select {
   height: 128px;
+}
+
+#tv-left {
+  background-image: url("./assets/left_screen.png");
+  background-size: 109px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#tv-right {
+  background-image: url("./assets/right_screen.png");
+  background-size: 109px;
+  background-repeat: no-repeat;
+  background-position: center;
+
+}
+
+#tv-both {
+  background-image: url("./assets/both_screens.png");
+  background-size: 234px;
+  background-repeat: no-repeat;
+  background-position: center;
+
 }
 
 div#tv-select div {
@@ -34,7 +59,7 @@ div#tv-select div {
 }
 
 div#tv-select div.selected {
-  background-color: #999;
+  background-color: #CCC;
   font-color: black;
 }
 
@@ -45,5 +70,5 @@ div#tv-select div.selected {
   margin: 0px;
   float: left;
 
-  background-color: #BBB;
+  background-color: #CCC;
 }
