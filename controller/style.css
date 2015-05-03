@@ -76,4 +76,13 @@ div#tv-select div.selected {
 .motm-select {
   width: 768px;
   text-align: center;
+  font-size: 30px;
+}
+
+.motm-select button {
+  font-size: inherit !important;
+}
+
+.motm-select select#motm-select {
+  font-size: inherit !important;
 }
