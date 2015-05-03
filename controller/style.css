@@ -72,3 +72,8 @@ div#tv-select div.selected {
 
   background-color: #CCC;
 }
+
+.motm-select {
+  width: 768px;
+  text-align: center;
+}

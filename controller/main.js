@@ -1,3 +1,5 @@
+motm = undefined;
+
 client_id = "summit-club-controller";
 client = new Paho.MQTT.Client("q.thingfabric.com", 8083, client_id);
 // client.onMessageArrived = message_arrived;
@@ -33,7 +35,8 @@ buttons = {
 
   roster: document.getElementById("roster"),
   cotm: document.getElementById("cotm"),
-  motm: document.getElementById("motm")
+  motm: document.getElementById("motm"),
+  motm_selector: document.getElementById("motm-button")
   // Other buttons go here as they are added.
 };
 
@@ -75,8 +78,15 @@ buttons.cotm.onclick = function() {
 }
 
 buttons.motm.onclick = function() {
-  var json_command = '{"mode":"motm", "player":"player_name.png"}';
-  command(json_command);
+  if(motm != undefined) {
+    var json_command = '{"mode":"motm", "player":"' + motm + '"}';
+    command(json_command);
+  }
+}
+
+buttons.motm_selector.onclick = function() {
+  motm = document.getElementById("motm-select").value;
+  document.getElementById("current-motm").innerHTML = "Man of the Match is set to " + document.getElementById("motm-select").options[document.getElementById("motm-select").selectedIndex].innerHTML + ".";
 }
 
 function command(command) {
