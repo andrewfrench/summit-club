@@ -73,6 +73,18 @@ div#tv-select div.selected {
   background-color: #CCC;
 }
 
+.controller-element#roster {
+  background-image: url("./assets/rs.png")
+}
+
+.controller-element#cotm {
+  background-image: url("./assets/cotm.png")
+}
+
+.controller-element#motm {
+  background-image: url("./assets/motm.png")
+}
+
 .motm-select {
   width: 768px;
   text-align: center;
