@@ -4,8 +4,7 @@ function Cotm(context) {
   this.context = context;
 
   this.image_urls = [
-    "../assets/chef_pngs/bio_1.png",
-    "../assets/chef_pngs/bio_2.png",
+    "../assets/chef_pngs/bio.png",
     "../assets/chef_pngs/budweiser.png",
     "../assets/chef_pngs/menu.png",
     "../assets/chef_pngs/marley_coffee.png",
@@ -14,7 +13,6 @@ function Cotm(context) {
 
   // The configurable length of each slide, in ms.
   this.image_slide_lengths = [
-    40 * 1000,
     40 * 1000,
     15 * 1000,
     40 * 1000,
