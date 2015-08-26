@@ -4,10 +4,11 @@ function Cotm(context) {
   this.context = context;
 
   this.image_urls = [
-    "../assets/chef_pngs/bio.png",
+    "../assets/chef_pngs/bio_1.png",
     "../assets/chef_pngs/budweiser.png",
-    "../assets/chef_pngs/menu.png",
+    "../assets/chef_pngs/bio_2.png",
     "../assets/chef_pngs/marley_coffee.png",
+    "../assets/chef_pngs/menu.png",
     "../assets/chef_pngs/odell_brewing.png"
   ];
 
@@ -17,6 +18,7 @@ function Cotm(context) {
     15 * 1000,
     40 * 1000,
     15 * 1000,
+    40 * 1000,
     15 * 1000
   ];
 
